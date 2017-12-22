@@ -18,14 +18,14 @@ GRANT create session TO trms;
 GRANT create table TO trms;
 GRANT create view TO trms;
 
-conn trms/p4ssw0rd
+conn trms/p4ssw0rd;
 
 /*******************************************************************************
    Create Tables
 ********************************************************************************/
 CREATE TABLE Department
 (
-    DepartmentId NUMBER NOT NULL AUTO_INCREMENT,
+    DepartmentId NUMBER NOT NULL,
     Name VARCHAR2(160) NOT NULL,
     Head NUMBER NOT NULL,
     CONSTRAINT PK_Department PRIMARY KEY  (DepartmentId)
@@ -33,11 +33,12 @@ CREATE TABLE Department
 
 CREATE TABLE Employee
 (
-    EmployeeId NUMBER NOT NULL AUTO_INCREMENT, 
+    EmployeeId NUMBER NOT NULL , 
     LastName VARCHAR2(200) NOT NULL,
     FirstName VARCHAR2(200) NOT NULL,
     Supervisor NUMBER NOT NULL,
     Department NUMBER NOT NULL,
+    IsBenefitCoodinator BOOLEAN DEFAULT FALSE NOT NULL, 
     Email VARCHAR2(200) NOT NULL,
     Title VARCHAR2(200),
     BirthDate DATE,
@@ -53,6 +54,32 @@ CREATE TABLE Employee
     CONSTRAINT EmployeeEmail_unique UNIQUE (Email)
 );
 
+CREATE TABLE EducationRequest
+(
+    EducationRequestId NUMBER NOT NULL ,
+    EmployeeId NUMBER NOT NULL,
+    SupervisorApproval BOOLEAN,
+    DepartmentHeadApproval BOOLEAN,
+    BenefitCoodinatorApproval BOOLEAN,
+    StartDate TIMESTAMP NOT NULL,
+    EndDate TIMESTAMP NOT NULL, 
+    DaysOff NUMBER,
+    Location VARCHAR2(200),
+    Justification VAR
+    
+);
+
+CREATE TABLE EducationType
+(
+    EducationTypeId NUMBER NOT NULL ,
+    Name VARCHAR2(200),
+    PercentCovered VARCHAR2(200),
+
+    CONSTRAINT PK_Employee PRIMARY KEY (EmployeeId)
+)
+
+
+
 /*******************************************************************************
    Create Foreign Keys
 ********************************************************************************/
@@ -63,7 +90,8 @@ ALTER TABLE Employee ADD CONSTRAINT FK_EmployeeSupervisor
     FOREIGN KEY (Supervisor) REFERENCES Employee(EmployeeId);
 
 ALTER TABLE Employee ADD CONSTRAINT FK_EmployeeDepartment
-    FOREIGN KEY (Department) REFERENCES Department(DepartmentId);    
+    FOREIGN KEY (Department) REFERENCES Department(DepartmentId); 
+    
     
 
 
