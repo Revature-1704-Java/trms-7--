@@ -1,26 +1,4 @@
 /*******************************************************************************
-   Drop database if it exists
-********************************************************************************/
-DROP USER trms CASCADE;
-
-/*******************************************************************************
-   Create database
-********************************************************************************/
-CREATE USER trms
-IDENTIFIED BY p4ssw0rd
-DEFAULT TABLESPACE users
-TEMPORARY TABLESPACE temp
-QUOTA 10M ON users;
-
-GRANT connect to trms;
-GRANT resource to trms;
-GRANT create session TO trms;
-GRANT create table TO trms;
-GRANT create view TO trms;
-
-conn trms/p4ssw0rd;
-
-/*******************************************************************************
    Create Tables
 ********************************************************************************/
 CREATE TABLE Department
@@ -28,8 +6,11 @@ CREATE TABLE Department
     DepartmentId NUMBER NOT NULL,
     Name VARCHAR2(160) NOT NULL,
     Head NUMBER NOT NULL,
+    
     CONSTRAINT PK_Department PRIMARY KEY  (DepartmentId)
 );
+CREATE SEQUENCE DepartmentId MINVALUE 1 START WITH 1 INCREMENT BY 1 CACHE 20;
+
 
 CREATE TABLE Employee
 (
@@ -38,7 +19,7 @@ CREATE TABLE Employee
     FirstName VARCHAR2(200) NOT NULL,
     Supervisor NUMBER NOT NULL,
     Department NUMBER NOT NULL,
-    IsBenefitCoodinator BOOLEAN DEFAULT FALSE NOT NULL, 
+    IsBenefitCoodinator CHAR(1) DEFAULT 0 NOT NULL, 
     Email VARCHAR2(200) NOT NULL,
     Title VARCHAR2(200),
     BirthDate DATE,
@@ -53,10 +34,14 @@ CREATE TABLE Employee
     CONSTRAINT PK_Employee PRIMARY KEY  (EmployeeId),
     CONSTRAINT EmployeeEmail_unique UNIQUE (Email)
 );
+CREATE SEQUENCE EmployeeId MINVALUE 1 START WITH 1 INCREMENT BY 1 CACHE 20;
+INSERT INTO EMPLOYEE (LastName, FirstName, Supervisor, Department, Email) VALUES ('Rego', 'Philip', 1, 1,);
+
+
 
 CREATE TABLE EducationRequest
 (
-    EducationRequestId NUMBER NOT NULL ,
+    EducationRequestId NUMBER NOT NULL,
     EmployeeId NUMBER NOT NULL,
     SupervisorApproval BOOLEAN,
     DepartmentHeadApproval BOOLEAN,
@@ -65,19 +50,23 @@ CREATE TABLE EducationRequest
     EndDate TIMESTAMP NOT NULL, 
     DaysOff NUMBER,
     Location VARCHAR2(200),
-    Justification VAR
+    Justification VARCHAR(2000),
+    Cost NUMBER, 
+    PresetationDocumentPath VARCHAR2(4096),
+    ReimbursmentPaid BOOLEAN, 
+    Type NUMBER, 
     
+    CONSTRAINT PK_Department PRIMARY KEY (DepartmentId)
 );
 
 CREATE TABLE EducationType
 (
-    EducationTypeId NUMBER NOT NULL ,
+    EducationTypeId NUMBER NOT NULL,
     Name VARCHAR2(200),
     PercentCovered VARCHAR2(200),
 
     CONSTRAINT PK_Employee PRIMARY KEY (EmployeeId)
-)
-
+);
 
 
 /*******************************************************************************
