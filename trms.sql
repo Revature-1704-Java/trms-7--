@@ -39,20 +39,20 @@ CREATE TABLE EducationRequest
 (
     EducationRequestId NUMBER NOT NULL,
     EmployeeId NUMBER NOT NULL,
-    SupervisorApproval BOOLEAN,
-    DepartmentHeadApproval BOOLEAN,
-    BenefitCoodinatorApproval BOOLEAN,
+    SupervisorApproval CHAR(1) DEFAULT 0,
+    DepartmentHeadApproval CHAR(1) DEFAULT 0,
+    BenefitCoodinatorApproval CHAR(1) DEFAULT 0,
     StartDate TIMESTAMP NOT NULL,
     EndDate TIMESTAMP NOT NULL, 
     DaysOff NUMBER,
     Location VARCHAR2(200),
     Justification VARCHAR(2000),
     Cost NUMBER, 
-    PresetationDocumentPath VARCHAR2(4096),
-    ReimbursmentPaid BOOLEAN, 
+    PresetationDocumentPath VARCHAR2(4000),
+    ReimbursmentPaid CHAR(1) DEFAULT 0, 
     Type NUMBER, 
     
-    CONSTRAINT PK_Department PRIMARY KEY (DepartmentId)
+    CONSTRAINT PK_EducationRequest PRIMARY KEY (EducationRequestId)
 );
 
 CREATE TABLE EducationType
@@ -77,16 +77,18 @@ ALTER TABLE Employee ADD CONSTRAINT FK_EmployeeSupervisor
 ALTER TABLE Employee ADD CONSTRAINT FK_EmployeeDepartment
     FOREIGN KEY (Department) REFERENCES Department(DepartmentId); 
     
-    
+ALTER TABLE EducationRequest ADD CONSTRAINT FK_EducationRequestType
+    FOREIGN KEY (EducationType) REFERENCES Department(EducationTypeId); 
+        
 
 /*******************************************************************************
    Populate Tables
 ********************************************************************************/
 
-INSERT INTO DEPARTMENT (DepartmentId, Name) VALUES(1,'Software');
-INSERT INTO DEPARTMENT (DepartmentId, Name) VALUES(2,'Human Resources');
-INSERT INTO DEPARTMENT (DepartmentId, Name) VALUES(3,'Marketing');
-INSERT INTO DEPARTMENT (DepartmentId, Name) VALUES(4,'Production');
+INSERT INTO Department (DepartmentId, Name) VALUES(1,'Software');
+INSERT INTO Department (DepartmentId, Name) VALUES(2,'Human Resources');
+INSERT INTO Department (DepartmentId, Name) VALUES(3,'Marketing');
+INSERT INTO Department (DepartmentId, Name) VALUES(4,'Production');
 
 INSERT INTO Employee (EmployeeId, LastName, FirstName, Department, Email) VALUES (1, 'Rego', 'Philip', 1, 'regop412@gmail.com');
 INSERT INTO Employee (EmployeeId, LastName, FirstName, Department, Email) VALUES (2, 'Adams', 'Sneezy', 1, 'sneezya@gmail.com');
@@ -106,6 +108,15 @@ INSERT INTO EducationType(EducationTypeId, Name, PercentCovered) VALUES (6, 'Oth
 /*******************************************************************************
    Assign department heads  
 ********************************************************************************/
+UPDATE Department SET head = 1 WHERE name = 'Software';
+UPDATE Department SET head = 2 WHERE name = 'Human Resources';
+UPDATE Department SET head = 3 WHERE name = 'Marketing';
+UPDATE Department SET head = 4 WHERE name = 'Production';
 
-
-
+/*******************************************************************************
+   Selects
+********************************************************************************/
+SELECT * FROM Employee;
+SELECT * FROM Department;
+SELECT * FROM EducationRequest;
+SELECT * FROM EducationType;
