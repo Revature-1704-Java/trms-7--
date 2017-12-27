@@ -114,8 +114,23 @@ UPDATE Department SET head = 3 WHERE name = 'Marketing';
 UPDATE Department SET head = 4 WHERE name = 'Production';
 
 /*******************************************************************************
+   Assign supervisors  
+********************************************************************************/
+UPDATE Employee SET supervisor = 1 WHERE firstName = 'Sneezy';
+UPDATE Employee SET supervisor = 1 WHERE firstName = 'Sleepy';
+UPDATE Employee SET supervisor = 1 WHERE firstName = 'Dopey';
+UPDATE Employee SET supervisor = 1 WHERE firstName = 'Grumpy';
+UPDATE Employee SET supervisor = 1 WHERE firstName = 'Bashful';
+
+/*******************************************************************************
    Selects
 ********************************************************************************/
+
+SELECT * FROM Employee where EMAIL  ='sneezya@gmail.com';
+SELECT * FROM Employee where employeeid = 1;
+SELECT * FROM Department where departmentid = 1;
+
+
 SELECT * FROM Employee;
 SELECT * FROM Department;
 SELECT * FROM EducationRequest;
