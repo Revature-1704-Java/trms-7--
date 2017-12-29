@@ -11,7 +11,6 @@ CREATE TABLE Department
 );
 
 
-INSERT INTO EducationType(EducationTypeId, Name, PercentCovered) VALUES (5, 'Technical Training', .9 );
 CREATE TABLE Employee
 (
     EmployeeId NUMBER NOT NULL , 
