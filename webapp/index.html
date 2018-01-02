@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="login.js"></script>
-    <title>TRMS | Login</title>
+    <title>TRMS</title>
 </head>
 
 <body>
@@ -15,16 +15,36 @@
         <input name="Submit" onclick="login(document.getElementById('email').value)" type="submit" />
     </div>
     <div id="login_greeting"></div>
-    <div id="new_education_request_btn" >
-            <button  name="Create New Education Request" onclick="create_new_education_request()">Click me</button>
-            <input type="submit"  />
+    <div id="new_education_request_btn" hidden>
+            <button  id="create_new_education_request" onclick="create_new_education_request()">Create New Education Request</button>
+           
     </div>
 
     
     <div id="new_education_request" hidden>
-            <label for="mail">New Education Request</label>
-            <input type="email" id="email">
-            <input name="Submit" onclick="login(document.getElementById('email').value)" type="submit" />
+            <label>New Education Request:</br></label>
+            <label>Start Date</label></br>
+            <input type="date" id="start_date"></br>
+            <label>End Date</label></br>
+            <input type="date" id="end_date"></br>
+            <label>Education Type</label></br>
+            <select id="education_type_ddl"></br>
+                <option value="value1">University Courses</option> 
+                <option value="value2">Seminars</option>
+                <option value="value3">Certification Preparation Classes</option>
+                <option value="value4">Certification</option> 
+                <option value="value5">Technical Training</option>
+                <option value="value6">Other</option>
+            </select></br>
+            <label>Days off</label></br>
+            <input type="number" id="days_off"></br>
+            <label>Cost</label></br>
+            <input type="number" id="cost"></br>
+            <label>Location</label></br>
+            <input type="text" id="location"></br>
+            <label>Justification</label></br>
+            <input type="text" id="justification"></br>
+            <input name="Submit" onclick="submit_new_education_request()" type="submit" />
     </div>
 </body>
 
