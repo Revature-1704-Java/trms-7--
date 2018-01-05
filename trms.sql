@@ -33,7 +33,21 @@ CREATE TABLE Employee
     CONSTRAINT PK_Employee PRIMARY KEY  (EmployeeId),
     CONSTRAINT EmployeeEmail_unique UNIQUE (Email)
 );
+INSERT INTO EducationRequest(EmployeeId, startDate, endDate, daysOff, location, justification, cost, type)
+VALUES (1, '2018-01-01 19:00:00.0','2018-01-05 19:00:00.0', 4, 'somwhere', 'somplace',6,2);
 
+CREATE SEQUENCE EducationRequest_seq START WITH 1;
+/
+CREATE OR REPLACE TRIGGER EducationRequest_bir 
+BEFORE INSERT ON EducationRequest 
+FOR EACH ROW
+
+BEGIN
+  SELECT EducationRequest_seq.NEXTVAL
+  INTO   :new.EducationRequestId
+  FROM   dual;
+END;
+/
 CREATE TABLE EducationRequest
 (
     EducationRequestId NUMBER NOT NULL,
@@ -134,3 +148,31 @@ SELECT * FROM Employee;
 SELECT * FROM Department;
 SELECT * FROM EducationRequest;
 SELECT * FROM EducationType;
+
+SELECT * FROM EducationRequest where employeeid = 5;
+
+UPDATE EducationRequest
+SET employeeid = 5;
+
+UPDATE Department
+SET head = 2
+WHERE departmentid = 1;
+
+UPDATE employee
+SET isBenefitCoodinator = 1
+WHERE employeeid = 1;
+
+UPDATE employee
+SET supervisor = 3
+WHERE employeeid > 4;
+
+--given employeeid see if hes a supervisor and can approve any
+SELECT *
+FROM EducationRequest
+JOIN EMPLOYEE
+ON EducationRequest.employeeid = EMPLOYEE.employeeid
+WHERE supervisor = 3;
+
+SELECT isBenefitCoodinator FROM EMPLOYEE WHERE employeeId = 1;
+--if isben 1 then
+SELECT * FROM EducationRequest;

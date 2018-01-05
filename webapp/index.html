@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="login.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/1.0.0/json2html.min.js"></script>
     <title>TRMS</title>
 </head>
 
@@ -29,12 +30,12 @@
             <input type="date" id="end_date"></br>
             <label>Education Type</label></br>
             <select id="education_type_ddl"></br>
-                <option value="value1">University Courses</option> 
-                <option value="value2">Seminars</option>
-                <option value="value3">Certification Preparation Classes</option>
-                <option value="value4">Certification</option> 
-                <option value="value5">Technical Training</option>
-                <option value="value6">Other</option>
+                <option value="1">University Courses</option> 
+                <option value="2">Seminars</option>
+                <option value="3">Certification Preparation Classes</option>
+                <option value="4">Certification</option> 
+                <option value="5">Technical Training</option>
+                <option value="6">Other</option>
             </select></br>
             <label>Days off</label></br>
             <input type="number" id="days_off"></br>
@@ -45,6 +46,13 @@
             <label>Justification</label></br>
             <input type="text" id="justification"></br>
             <input name="Submit" onclick="submit_new_education_request()" type="submit" />
+    </div>
+
+    <div>
+        <label id="your_requests" hidden>Your Open Requests</label></br>
+            <div id="requests">
+                
+            </div>
     </div>
 </body>
 
