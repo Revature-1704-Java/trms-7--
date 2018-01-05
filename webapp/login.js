@@ -26,6 +26,7 @@ function login(email) {
                 // TODO Show open education requests this user can approve Show the users
                 // education requests
                 show_my_education_requests(json.employeeId);
+                supervisor_approve_education_requests(json.employeeId);
             }
         }
     };
@@ -114,5 +115,56 @@ function show_my_education_requests(employeeId) {
     };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
+}
+
+function supervisor_approve_education_requests(employeeId) {
+    let xmlhttp = new XMLHttpRequest();
+    let url = "http://localhost:8081/TRMSServlet/SupervisorApprove?employee_id=" + employeeId;
+
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var json = JSON.parse(this.responseText);
+            console.log('empty?'+json);
+            if (json == null || isEmpty(json)) {} else {
+                console.log('supervisor req appr' +json);
+                document
+                    .getElementById("request_you_can_supervisor_approve")
+                    .hidden = false;
+
+                let t = {
+                    '<>': 'div',
+                    'html': '<button  id="supervisor_approve_request" onclick="supervisor_approve_request(${educationRequestId})">Approve</button>'+
+                            'Employee ID: ${employeeId}, Request ID: ${educationRequestId}, Cost: ${cost}, St' +
+                            'art Date: ${startDate}, End Date: ${endDate}, Days Off: ${daysOff}, Location: ${loca' +
+                            'tion}, Justification: ${justification}, Type ${type} </br>'+
+                            'Supervisor Approval: ${supervisorApproval}, Dept Head Approval: ${departmentHeadApproval}, Benefit Coordinator Approval: ${benefitCoodinatorApproval}'
+                };
+                document
+                    .getElementById("supervisor_approve_requests")
+                    .innerHTML = json2html.transform(json, t);
+            }
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
 
 }
+
+function supervisor_approve_request(supervisor_approve_request_id){
+    console.log('sup appr req id'+ supervisor_approve_request_id);
+    let xmlhttp = new XMLHttpRequest();
+    let url = "http://localhost:8081/TRMSServlet/SupervisorApprove?sup_apr_req_id=" + supervisor_approve_request_id;
+    xmlhttp.open("POST", url, true);
+    xmlhttp.send();
+
+    setTimeout(function () {
+        supervisor_approve_education_requests(employee.employeeId)
+    }, 3000);
+    
+}
+function isEmpty( obj ) { 
+    for ( var prop in obj ) { 
+      return false; 
+    } 
+    return true; 
+  }
