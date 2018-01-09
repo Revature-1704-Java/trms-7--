@@ -151,6 +151,12 @@ SELECT * FROM EducationType;
 
 SELECT * FROM EducationRequest where employeeid = 5;
 
+Update EducationRequest
+set SUPERVISORAPPROVAL = 1
+where EDUCATIONREQUESTID=?
+
+
+
 UPDATE EducationRequest
 SET employeeid = 5;
 
@@ -166,12 +172,12 @@ UPDATE employee
 SET supervisor = 3
 WHERE employeeid > 4;
 
---given employeeid see if hes a supervisor and can approve any
+--given employeeid which reqs can they supervisor approve
 SELECT *
 FROM EducationRequest
 JOIN EMPLOYEE
 ON EducationRequest.employeeid = EMPLOYEE.employeeid
-WHERE supervisor = 3;
+WHERE supervisor = 1;
 
 SELECT isBenefitCoodinator FROM EMPLOYEE WHERE employeeId = 1;
 --if isben 1 then
